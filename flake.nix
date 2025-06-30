@@ -12,14 +12,27 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
-      packages.${system}.default = pkgs.writeShellApplication {
-        name = "say_foo";
+      packages.${system}= 
+	{
+		default = pkgs.writeShellApplication {
+        name = "getport";
+        runtimeInputs = [ pkgs.autossh ];
+        text = ''
+          #!${pkgs.stdenv.shell}
+          ${builtins.readFile ./getport.sh}
+        '';
+        checkPhase = "${pkgs.stdenv.shellDryRun} $target";
+      	};
+
+      other  = pkgs.writeShellApplication {
+        name = "say_fooo";
         runtimeInputs = [ pkgs.autossh ];
         text = ''
           #!${pkgs.stdenv.shell}
           ${builtins.readFile ./script.sh}
         '';
         checkPhase = "${pkgs.stdenv.shellDryRun} $target";
+	}; 
       };
     };
 }
