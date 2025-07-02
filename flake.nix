@@ -44,7 +44,7 @@
         {
           nixpkgs.overlays = [ self.overlay ];
 
-          environment.systemPackages = [ pkgs.remoteconnect ];
+          environment.systemPackages = [ pkgs.remoteconnect pkgs.autossh];
 
           #systemd.services = { ... };
         };
